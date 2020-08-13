@@ -1,6 +1,7 @@
-import CompanyRouter from "./server/modules/Company/Company.route";
+import UserRouter from "./server/modules/User/user.route";
 
 let router = [];
-router.push(CompanyRouter)
+
+router.push(UserRouter)
 
 export default router;
