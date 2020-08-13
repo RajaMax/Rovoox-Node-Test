@@ -3,6 +3,8 @@ import express from "express";
 import bodyParser from "body-parser";
 import morgan from 'morgan';
 import glob from 'glob';
+const fileUpload = require('express-fileupload');
+
 
 //include the files 
 import settings from './settings';
@@ -17,6 +19,7 @@ var mkdirp = require('mkdirp');
 const port = settings.port;
 
 const app = express();
+app.use(fileUpload());
 
 const server = http.createServer(app)
 
@@ -45,7 +48,7 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   
     // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'Authorization,Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,X-Access-Token,XKey,Authorization');
+    res.setHeader('Access-Control-Allow-Headers', 'Authorization,Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Accept, multipart/form-data,Access-Control-Request-Method, Access-Control-Request-Headers,X-Access-Token,XKey,Authorization');
   
   //  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   
@@ -59,7 +62,9 @@ apiRouters.forEach(function (apiRoute) {
 // app.get('*', (req, res) => {
 //     res.sendFile(path.join(__dirname, 'index.html'));
 // });
-
+app.get("/profile_image/:id", (req, res) => {
+    res.sendFile(path.join(__dirname, "./profile_image/"+req.params.id));
+  });
 
 server.listen(port, () => {
     console.log(`Server started on port : ${port}`);
